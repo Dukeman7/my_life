@@ -30,11 +30,11 @@ st.info(f"📍 **Estado del Enlace:** Activo y Sincronizado desde hace {dias_jun
 
 col1, col2 = st.columns(2)
 with col1:
-    st.metric("DISPONIBILIDAD EN ELLA", f"{(dias_juntos/vida_ella)*100:.1f}%")
-    st.write("Más de la mitad de su vida caminando a tu lado.")
+    st.metric("DISPONIBILIDAD DIN LUZ", f"{(dias_juntos/vida_ella)*100:.1f}%")
+    st.write("Más de la mitad de MI vida caminando a tu lado.")
 
 with col2:
-    st.metric("DISPONIBILIDAD EN TI", f"{(dias_juntos/vida_juancho)*100:.1f}%")
+    st.metric("DISPONIBILIDAD CON LUZ", f"{(dias_juntos/vida_juancho)*100:.1f}%")
     st.write("A solo meses del Crossover Total (50%+).")
 
 st.divider()
