@@ -18,6 +18,7 @@ hoy = date.today()
 dias_juntos = (hoy - f_novios).days
 vida_juancho = (hoy - f_juancho).days
 vida_ella = (hoy - f_ella).days
+dias_medio = (date(2026, 6, 23)- f_juancho).days /2
 
 # El Crossover de Juancho (Cálculo exacto)
 # x = dias sin ella + dias con ella. Queremos dias con ella > dias sin ella.
@@ -30,7 +31,7 @@ st.info(f"📍 **Estado del Enlace:** Activo y Sincronizado desde hace {dias_jun
 
 col1, col2 = st.columns(2)
 with col1:
-    st.metric("DISPONIBILIDAD DIN LUZ", f"{(dias_juntos/vida_ella)*100:.1f}%")
+    st.metric("DISPONIBILIDAD SIN LUZ", f"{(dias_juntos/vida_ella)*100:.1f}%")
     st.write("Más de la mitad de MI vida caminando a tu lado.")
 
 with col2:
@@ -58,3 +59,4 @@ st.success(f"🚀 **Próximo Gran Salto:** El 23 de junio de 2026, mi vida tendr
 st.sidebar.markdown("---")
 st.sidebar.write("🛠️ **Ingeniería de Sistemas Amorosos**")
 st.sidebar.write("Release: 14-10-Ever")
+st.sidebar.write(dias_medio)
