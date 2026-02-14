@@ -20,6 +20,7 @@ vida_juancho = (hoy - f_juancho).days
 vida_ella = (hoy - f_ella).days
 dias_medio = (date(2026, 6, 23)- f_juancho).days /2
 dias_vida = (date(2026, 6, 23)- f_juancho).days
+dias_crossover = (date(2026, 6, 23)- hoy).days
 
 # El Crossover de Juancho (Cálculo exacto)
 # x = dias sin ella + dias con ella. Queremos dias con ella > dias sin ella.
