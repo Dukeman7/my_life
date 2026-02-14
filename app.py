@@ -19,6 +19,7 @@ dias_juntos = (hoy - f_novios).days
 vida_juancho = (hoy - f_juancho).days
 vida_ella = (hoy - f_ella).days
 dias_medio = (date(2026, 6, 23)- f_juancho).days /2
+dias_vida = (date(2026, 6, 23)- f_juancho).days
 
 # El Crossover de Juancho (Cálculo exacto)
 # x = dias sin ella + dias con ella. Queremos dias con ella > dias sin ella.
@@ -60,3 +61,5 @@ st.sidebar.markdown("---")
 st.sidebar.write("🛠️ **Ingeniería de Sistemas Amorosos**")
 st.sidebar.write("Release: 14-10-Ever")
 st.sidebar.write(dias_medio)
+st.sidebar.write(vida_juancho)
+st.sidebar.write(dias_vida)
