@@ -8,26 +8,26 @@ st.set_page_config(page_title="LDK - Bunker Central", page_icon="🚀", layout="
 st.title("🚀 LDK Control Center")
 st.write("Conexión segura. Bienvenido al Búnker, Comandante.")
 
-# 2. CONEXIÓN Y LIMPIEZA DE DATOS (AJUSTADA)
-# 2. CONEXIÓN Y LIMPIEZA DE DATOS (REFORZADA)
+# 2. CONEXIÓN Y LIMPIEZA DE DATOS (VERSIÓN FINAL)
 try:
     conn = st.connection("gsheets", type=GSheetsConnection)
     
-    # 1. Cambie el nombre en su Google Sheet a "DATA" (una sola palabra)
-    # 2. Use ese mismo nombre aquí:
+    # Usamos el nombre de pestaña 'DATA' sin espacios
+    # ttl=0 obliga a refrescar datos siempre
     df = conn.read(worksheet="DATA", ttl=0) 
     
-    # Limpiamos los títulos por si acaso
+    # Limpiamos nombres de columnas de cualquier espacio invisible
     df.columns = df.columns.str.strip()
     
-    # Filtramos filas vacías
-    df = df.dropna(subset=['NOMBRE', 'ENLACE'])
+    # Eliminamos filas que no tengan el nombre del sistema
+    df = df.dropna(subset=['NOMBRE'])
     
-    # Aseguramos el booleano en favoritos
+    # Aseguramos que la columna FAVORITO se lea como Booleano
     df['FAVORITO'] = df['FAVORITO'].astype(bool)
     
 except Exception as e:
     st.error(f"Error de conexión: {e}")
+    st.info("💡 Consejo: Verifica que la pestaña del Sheet se llame exactamente 'DATA' (sin espacios).")
     st.stop()
 
 # 3. SECCIÓN DE FAVORITOS (ACCESO RÁPIDO)
