@@ -9,33 +9,21 @@ st.title("🚀 LDK Control Center")
 st.write("Conexión segura. Bienvenido al Búnker, Comandante.")
 
 # 2. CONEXIÓN Y LIMPIEZA DE DATOS (AJUSTADA)
+# 2. CONEXIÓN Y LIMPIEZA DE DATOS (REFORZADA)
 try:
     conn = st.connection("gsheets", type=GSheetsConnection)
     
-    # Forzamos la lectura de "Hoja 1" y eliminamos filas totalmente vacías
-    df = conn.read(worksheet="Hoja 1", ttl=0) 
+    # 1. Cambie el nombre en su Google Sheet a "DATA" (una sola palabra)
+    # 2. Use ese mismo nombre aquí:
+    df = conn.read(worksheet="DATA", ttl=0) 
     
-    # Limpiamos espacios en blanco en los títulos
+    # Limpiamos los títulos por si acaso
     df.columns = df.columns.str.strip()
     
-    # IMPORTANTE: Solo nos quedamos con filas que tengan NOMBRE y ENLACE real
+    # Filtramos filas vacías
     df = df.dropna(subset=['NOMBRE', 'ENLACE'])
     
-    # Si después de limpiar el DF está vacío, lanzamos un aviso
-    if df.empty:
-        st.warning("⚠️ El sistema conectó, pero no encontró datos en la 'Hoja 1'. Revisa que la fila 2 tenga información.")
-        st.stop()
-
-    # Convertimos FAVORITO a booleano real
-    df['FAVORITO'] = df['FAVORITO'].astype(bool)
-    
-    # Limpiamos espacios en blanco en los títulos
-    df.columns = df.columns.str.strip()
-    
-    # Quitamos filas vacías
-    df = df.dropna(subset=['NOMBRE', 'ENLACE'])
-    
-    # Convertimos FAVORITO a booleano real
+    # Aseguramos el booleano en favoritos
     df['FAVORITO'] = df['FAVORITO'].astype(bool)
     
 except Exception as e:
