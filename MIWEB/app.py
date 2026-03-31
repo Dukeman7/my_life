@@ -9,25 +9,23 @@ st.title("🚀 LDK Control Center")
 st.write("Conexión segura. Bienvenido al Búnker, Comandante.")
 
 # 2. CONEXIÓN Y LIMPIEZA DE DATOS (VERSIÓN FINAL)
+# 2. CONEXIÓN Y LIMPIEZA DE DATOS (MÁXIMA COMPATIBILIDAD)
 try:
     conn = st.connection("gsheets", type=GSheetsConnection)
     
-    # Usamos el nombre de pestaña 'DATA' sin espacios
-    # ttl=0 obliga a refrescar datos siempre
-    df = conn.read(worksheet="DATA", ttl=0) 
+    # Al no poner 'worksheet', leerá la primera pestaña que encuentre (DATA)
+    # ttl=0 para que no se guarde errores en caché
+    df = conn.read(ttl=0) 
     
-    # Limpiamos nombres de columnas de cualquier espacio invisible
+    # Limpieza de seguridad
     df.columns = df.columns.str.strip()
-    
-    # Eliminamos filas que no tengan el nombre del sistema
     df = df.dropna(subset=['NOMBRE'])
     
-    # Aseguramos que la columna FAVORITO se lea como Booleano
-    df['FAVORITO'] = df['FAVORITO'].astype(bool)
+    # Convertimos FAVORITO a booleano, manejando posibles errores
+    df['FAVORITO'] = df['FAVORITO'].fillna(False).astype(bool)
     
 except Exception as e:
     st.error(f"Error de conexión: {e}")
-    st.info("💡 Consejo: Verifica que la pestaña del Sheet se llame exactamente 'DATA' (sin espacios).")
     st.stop()
 
 # 3. SECCIÓN DE FAVORITOS (ACCESO RÁPIDO)
