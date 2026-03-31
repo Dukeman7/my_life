@@ -8,10 +8,30 @@ st.set_page_config(page_title="LDK - Bunker Central", page_icon="🚀", layout="
 st.title("🚀 LDK Control Center")
 st.write("Conexión segura. Bienvenido al Búnker, Comandante.")
 
-# 2. CONEXIÓN Y LIMPIEZA DE DATOS
+# 2. CONEXIÓN Y LIMPIEZA DE DATOS (AJUSTADA)
 try:
     conn = st.connection("gsheets", type=GSheetsConnection)
-    df = conn.read()
+    
+    # Forzamos la lectura de "Hoja 1" y eliminamos filas totalmente vacías
+    df = conn.read(worksheet="Hoja 1", ttl=0) 
+    
+    # Limpiamos espacios en blanco en los títulos
+    df.columns = df.columns.str.strip()
+    
+    # IMPORTANTE: Solo nos quedamos con filas que tengan NOMBRE y ENLACE real
+    df = df.dropna(subset=['NOMBRE', 'ENLACE'])
+    
+    # Si después de limpiar el DF está vacío, lanzamos un aviso
+    if df.empty:
+        st.warning("⚠️ El sistema conectó, pero no encontró datos en la 'Hoja 1'. Revisa que la fila 2 tenga información.")
+        st.stop()
+
+    # Convertimos FAVORITO a booleano real
+    df['FAVORITO'] = df['FAVORITO'].astype(bool)
+    
+except Exception as e:
+    st.error(f"Error de conexión: {e}")
+    st.stop()
     
     # Limpiamos espacios en blanco en los títulos
     df.columns = df.columns.str.strip()
