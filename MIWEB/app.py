@@ -29,10 +29,6 @@ try:
     # Convertimos FAVORITO a booleano real
     df['FAVORITO'] = df['FAVORITO'].astype(bool)
     
-except Exception as e:
-    st.error(f"Error de conexión: {e}")
-    st.stop()
-    
     # Limpiamos espacios en blanco en los títulos
     df.columns = df.columns.str.strip()
     
