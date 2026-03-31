@@ -28,18 +28,24 @@ st.write("Bienvenido al Búnker, Comandante. Todos sus sistemas en un solo lugar
 
 # 1. Conexión con el Google Sheet
 # Recuerda configurar tus SECRETS en Streamlit Cloud con la URL del Sheet
+# 1. Conexión con el Google Sheet
 try:
     conn = st.connection("gsheets", type=GSheetsConnection)
     df = conn.read()
-    # Limpiamos filas vacías por si acaso
+    
+    # --- EL FIX ANTIBALAS ---
+    # Esto elimina espacios en blanco al principio o al final de los nombres de las columnas
+    df.columns = df.columns.str.strip()
+    
+    # Limpiamos filas que no tengan nombre o enlace
     df = df.dropna(subset=['NOMBRE', 'ENLACE'])
+    
+    # Aseguramos que FAVORITO sea booleano (por si acaso)
+    df['FAVORITO'] = df['FAVORITO'].astype(bool)
+    
 except Exception as e:
-    st.error(f"Error de conexión: Verifique que el Sheet sea público o las credenciales. {e}")
+    st.error(f"Error de conexión: {e}")
     st.stop()
-
-# --- SECCIÓN DE FAVORITOS (Los del Check) ---
-# En el Sheet, el check se lee como True/False
-favoritos = df[df['FAVORITO'] == True]
 
 if not favoritos.empty:
     st.subheader("⭐ Sistemas Críticos (Favoritos)")
